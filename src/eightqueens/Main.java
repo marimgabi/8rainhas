@@ -52,6 +52,7 @@ public class Main {
                 System.out.println("qtd elementos pilha "+borda.size());
             }else{
                 System.out.println("deu pop na pilha no else");
+                System.out.println(borda.size());
                 borda.pop();
             }
         }
