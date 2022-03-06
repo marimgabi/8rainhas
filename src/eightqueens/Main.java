@@ -8,7 +8,6 @@ public class Main {
 
     public static void profundidadeLimitada(Tree<EstadoTabuleiro> arvore, int limite) {
         int counter = 0;
-        float start = System.currentTimeMillis();
         Stack<TreeNode<EstadoTabuleiro>> borda = new Stack<>();
         borda.push(arvore.getRoot());
         while (true) {
@@ -19,12 +18,9 @@ public class Main {
             TreeNode<EstadoTabuleiro> noTopo = borda.pop();
             counter++;
             if (noTopo.getData().isSolution()) {
-                float end = System.currentTimeMillis();
                 System.out.println("Profundidade total: " + noTopo.height);
                 System.out.println(noTopo.data);
-                System.out.printf("Encontrada em %d iterações, em ", counter);
-                System.out.print(end - start);
-                System.out.println(" ms\n");
+                System.out.printf("Encontrou em %d iterações\n", counter);
                 return;
             }
             if (noTopo.height < limite) {
@@ -46,45 +42,44 @@ public class Main {
                     borda.push(a);
                 }
 
-            } else {
-                if (!borda.isEmpty()) borda.pop();
-            }
+            } else if (!borda.isEmpty()) borda.pop();
+
         }
     }
 
     public static void aEstrela(Tree<EstadoTabuleiro> arvore) {
         int counter = 0;
-        float start = System.currentTimeMillis();
         List<TreeNode<EstadoTabuleiro>> open = new LinkedList<>();
         open.add(arvore.getRoot());
         TreeNode<EstadoTabuleiro> node = open.get(0);
+
         while (!open.isEmpty()) {
             counter++;
+            // encontra o nó com o mínimo de conflitos
             node = minConflicts(open, node);
             open.remove(node);
-            int line = node.height - 1;
+
             if (node.data.isSolution()) {
-                float end = System.currentTimeMillis();
                 System.out.println("Solução:");
                 System.out.println(node.getData());
-                System.out.printf("Encontrada em %d iterações, em ", counter);
-                System.out.print(end - start);
-                System.out.println(" ms\n");
+                System.out.printf("Encontrou em %d iterações\n", counter);
                 return;
             }
 
+            // expande os filhos do nó
             for (int j = 0; j < 8; j++) {
-                if (node.getData().tabuleiro[line][j] == '.') {
+                if (node.getData().tabuleiro[node.height - 1][j] == '.') {
                     EstadoTabuleiro estadoFilho = new EstadoTabuleiro();
                     estadoFilho.setTabuleiro(node.getData().tabuleiro);
-                    estadoFilho.adicionaRainha(line, j);
-                    TreeNode<EstadoTabuleiro> aux = arvore.addChild(node, estadoFilho);
-                    open.add(aux);
+                    estadoFilho.adicionaRainha(node.height - 1, j);
+                    TreeNode<EstadoTabuleiro> filho = arvore.addChild(node, estadoFilho);
+                    open.add(filho);
                 }
             }
         }
     }
 
+    // retorna o nó com o mínimo de conflitos
     public static TreeNode<EstadoTabuleiro> minConflicts(List<TreeNode<EstadoTabuleiro>> open, TreeNode<EstadoTabuleiro> current) {
         if (open.size() == 1) return open.get(0);
         int minConflicts = MAX_VALUE;
