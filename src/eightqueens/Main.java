@@ -4,7 +4,45 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public class Main {
+
+    public static void aEstrela(Tree<EstadoTabuleiro> arvore){
+        List<TreeNode> aberta = new LinkedList<>();
+        List<TreeNode> fechada = new LinkedList<>();
+
+        aberta.add(arvore.getRoot());
+        TreeNode<EstadoTabuleiro> noAtual = arvore.getRoot();
+        while(true){
+            if(aberta.isEmpty()){
+                System.out.println("Não foi encontrada solução");
+                return;
+            }
+            if(noAtual.getData().isSolution()){
+                System.out.println("Solução:");
+                System.out.println(noAtual.getData());
+                return;
+            }
+            
+
+        }
+    }
+
+    public static TreeNode<EstadoTabuleiro> menorHeurística(List<TreeNode> aberta, TreeNode<EstadoTabuleiro> noAtual){
+        if(aberta.size()==1) return aberta.get(0);
+
+        TreeNode<EstadoTabuleiro> menorNo = new TreeNode<EstadoTabuleiro>(null,0);
+        int menor= MAX_VALUE, h=0;
+        for(TreeNode<EstadoTabuleiro> possivelNo : aberta){
+            h=noAtual.height+1+(noAtual.getData().conflitosGerados(possivelNo.getData().ultimaLinha, possivelNo.getData().ultimaColuna));
+            if(h<menor){
+                menor=h;
+                menorNo=possivelNo;
+            }
+        }
+        return menorNo;
+    }
 
     public static void profundidadeLimitada(Tree<EstadoTabuleiro> arvore, int limite){
         Stack<TreeNode<EstadoTabuleiro>> borda = new Stack<>();
@@ -67,8 +105,10 @@ public class Main {
     public static void main(String[] args) {
         EstadoTabuleiro inicial = new EstadoTabuleiro();
         Tree<EstadoTabuleiro> arvore = new Tree<>(inicial);
+        System.out.println("------Profundidade Limitada------");
         //Limite mínimo = número de rainhas+1;
-        profundidadeLimitada(arvore,9);
+//        profundidadeLimitada(arvore,9);
+        System.out.println("----------------A*---------------");
 
     }
 }

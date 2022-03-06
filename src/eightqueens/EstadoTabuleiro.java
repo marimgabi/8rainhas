@@ -3,6 +3,7 @@ package eightqueens;
 public class EstadoTabuleiro {
     char tabuleiro[][];
     int numeroRainhas;
+    int ultimaLinha, ultimaColuna;
 
     public EstadoTabuleiro(){
         tabuleiro = new char[8][8];
@@ -12,12 +13,16 @@ public class EstadoTabuleiro {
                 tabuleiro[i][j] = '.';
             }
         }
+        ultimaLinha=-1;
+        ultimaColuna=-1;
     }
 
     public void adicionaRainha(int m, int n){
         tabuleiro[m][n] = 'Q';
         numeroRainhas++;
         marcaAtaques(m,n);
+        ultimaLinha=m;
+        ultimaColuna=n;
     }
 
     public void marcaAtaques(int m, int n){
