@@ -27,14 +27,14 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
         this.height = 0;
     }
 
-    public T getData(){
+    public T getData() {
         return this.data;
     }
 
     public TreeNode<T> addChild(T data, int id) {
         TreeNode<T> childNode = new TreeNode<T>(data, id);
         childNode.parent = this;
-        childNode.height= this.height+1;
+        childNode.height = this.height + 1;
         this.children.add(childNode);
         return childNode;
     }
@@ -53,7 +53,5 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
     public Spliterator<TreeNode<T>> spliterator() {
         return Iterable.super.spliterator();
     }
-
-
 
 }
