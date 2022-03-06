@@ -117,7 +117,15 @@ public class EstadoTabuleiro {
     }
 
     public boolean isSolution(){
-        if(numeroRainhas==8) return true;
+        int count=0;
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(tabuleiro[i][j]=='Q'){
+                    count++;
+                }
+            }
+        }
+        if(count==8) return true;
         else return false;
     }
 
