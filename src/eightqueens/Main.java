@@ -42,8 +42,6 @@ public class Main {
 //                            System.out.println(aux);
 //                            System.out.println(arvore.find(aux.getData()));
                             nosFilhos.add(aux);
-                            estadoFilho=null;
-                            aux=null;
                         }
                     }
                 }
@@ -58,7 +56,10 @@ public class Main {
             }else{
 //                System.out.println("deu pop na pilha no else");
 //                System.out.println(borda.size());
-                borda.pop();
+                if(!borda.isEmpty()){
+                    borda.pop();
+                }
+
             }
         }
     }
@@ -66,7 +67,8 @@ public class Main {
     public static void main(String[] args) {
         EstadoTabuleiro inicial = new EstadoTabuleiro();
         Tree<EstadoTabuleiro> arvore = new Tree<>(inicial);
-        profundidadeLimitada(arvore,8);
+        //Limite mínimo = número de rainhas+1;
+        profundidadeLimitada(arvore,9);
 
     }
 }
